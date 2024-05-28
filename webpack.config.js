@@ -20,6 +20,11 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(?:js|mjs|cjs)$/,
+        exclude: /node_modules/,
+        use: 'babel-loader',
+      },
+      {
         test: /\.html$/i,
         loader: 'html-loader',
       },
