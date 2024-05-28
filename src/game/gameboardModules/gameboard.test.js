@@ -1,4 +1,3 @@
-import { experiments } from 'webpack';
 import createGameboard from './gameboard.js';
 
 test('places ships at specific coordinates correctly', () => {
