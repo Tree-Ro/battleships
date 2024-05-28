@@ -59,6 +59,19 @@ function createGameboard(size = 10) {
     });
     if (invalidCords.length) return null;
 
+    //Placement overlaps with existing ship
+    let length = +coordinateDelta.filter(Boolean);
+    length += Math.sign(length); //Increases delta by 1
+    let xOrientedShip = coordinateDelta[0] ? true : false;
+    for (let i = length; i !== 0; i -= Math.sign(i)) {
+      if (gameboard[x1][y1].isShip) return null;
+      if (xOrientedShip) {
+        x1++;
+      } else {
+        y1++;
+      }
+    }
+
     return true;
   }
 
@@ -66,7 +79,7 @@ function createGameboard(size = 10) {
 
   function allShipsSunken() {}
 
-  return { placeShip, recieveAttack };
+  return { placeShip, recieveAttack, allShipsSunken };
 }
 
 export default createGameboard;

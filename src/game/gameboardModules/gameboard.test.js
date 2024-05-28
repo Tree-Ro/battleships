@@ -17,9 +17,13 @@ test('validates illegal ship placements', () => {
   const outofBounds = myGameboard.placeShip([0, 0], [-1, 0]);
   const noSize = myGameboard.placeShip([5, 3], [5, 3]);
 
-  expect(diagonalPlacement).toBe(null);
-  expect(outofBounds).toBe(null);
-  expect(noSize).toBe(null);
+  myGameboard.placeShip([2, 3], [6, 3]);
+  let overlappingPlacement = myGameboard.placeShip([2, 3], [6, 3]);
+
+  expect(diagonalPlacement).toBeNull();
+  expect(outofBounds).toBeNull();
+  expect(noSize).toBeNull();
+  expect(overlappingPlacement).toBeNull();
 });
 
 test.todo('recieves attacks correctly');
