@@ -7,6 +7,7 @@ module.exports = {
   entry: './src/index.js',
   devServer: {
     client: {
+      logging: 'warn',
       overlay: false,
     },
     static: './dist',
