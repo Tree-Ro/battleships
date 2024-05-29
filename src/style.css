@@ -43,7 +43,9 @@ body {
 
 #board-container {
   width: 100%;
+
   display: grid;
+  grid-auto-flow: column;
 }
 
 #board-container #introduction {
@@ -98,9 +100,35 @@ body {
   background-color:  white;
   color: black;
 
-  transform: scale(1.05);
+  transform: scale(1.02);
   transition: 0.1s;
 }
 #introduction button:active {
-  transform: scale(0.95)
+  transform: scale(0.99)
+}
+
+#board-container .gameboard {
+  height: 550px;
+  width: 550px;
+  border: 1px solid var();
+
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+}
+.gameboard div#row {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+}
+.gameboard div#row > div {
+  border: 1px solid #181818;
+  background-color: var(--board-cell-colour);
+}
+.gameboard div#row > .hit {
+  background-color: var(--ship-hit-colour);
+}
+.gameboard div#row > .ship {
+  background-color: var(--ship-colour);
+}
+.gameboard div#row > .miss {
+  border: 8px solid white;
 }
