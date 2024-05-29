@@ -17,6 +17,7 @@ function renderGameboard() {
 }
 
 function createPlayerBoard() {
+  player.gameboard.addNewSetOfShips();
   const gameboard = player.gameboard.state();
   const boardWrapper = document.createElement('div');
   boardWrapper.id = 'player';
@@ -48,6 +49,8 @@ function createPlayerBoard() {
 
 function createNPCBoard() {
   const gameboard = npc.gameboard.state();
+  npc.gameboard.addNewSetOfShips();
+  console.log();
 
   const boardWrapper = document.createElement('div');
   boardWrapper.id = `npc`;

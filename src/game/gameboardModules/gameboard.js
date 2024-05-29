@@ -25,6 +25,49 @@ function createGameboard(size = 10) {
     return board;
   }
 
+  function addNewSetOfShips() {
+    for (const shiplength of [5, 4, 3, 3, 2]) {
+      const i = shiplength;
+
+      if (Math.random() > 0.5) {
+        //X-oriented Ship
+        while (true) {
+          let xVal = Math.round(Math.random() * 10) - 1;
+          let yVal = Math.round(Math.random() * 10) - 1;
+          while (yVal + i > 9) {
+            yVal--;
+          }
+          let startCords = [xVal, yVal];
+          let endCords = [xVal, yVal + i];
+
+          if (validateShipPlacement(startCords, endCords)) {
+            placeShip(startCords, endCords);
+            break;
+          }
+          continue;
+        }
+      } else {
+        //Y Oriented Ship
+        while (true) {
+          let xVal = Math.round(Math.random() * 10) - 1;
+          let yVal = Math.round(Math.random() * 10) - 1;
+          while (xVal + i > 9) {
+            xVal--;
+          }
+          let startCords = [xVal, yVal];
+          let endCords = [xVal + i, yVal];
+
+          if (validateShipPlacement(startCords, endCords)) {
+            placeShip(startCords, endCords);
+            break;
+          }
+          continue;
+        }
+      }
+    }
+    return;
+  }
+
   function placeShip(startCords, endCords) {
     if (!validateShipPlacement(startCords, endCords)) return null;
 
@@ -50,7 +93,7 @@ function createGameboard(size = 10) {
       }
     }
 
-    return gameboard;
+    return;
   }
   function validateShipPlacement(startCords, endCords) {
     let [x1, y1] = startCords;
@@ -120,7 +163,7 @@ function createGameboard(size = 10) {
     return sunkenShips.length === ships.length;
   }
 
-  return { state, placeShip, recieveAttack, allShipsSunken };
+  return { state, recieveAttack, allShipsSunken, addNewSetOfShips };
 }
 
 export default createGameboard;
