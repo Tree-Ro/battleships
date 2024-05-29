@@ -2,6 +2,11 @@ import Ship from '../shipModules/ship.js';
 
 function createGameboard(size = 10) {
   let gameboard = generateBoard(size);
+  let ships = [];
+
+  function state() {
+    return gameboard;
+  }
 
   function generateBoard(size) {
     let board = [];
@@ -10,7 +15,7 @@ function createGameboard(size = 10) {
       board[x] = [];
       for (let y = 0; y < size; y++) {
         let cellData = {
-          hit: false,
+          isHit: false,
           isShip: false,
           shipInstance: null,
         };
@@ -20,7 +25,7 @@ function createGameboard(size = 10) {
     return board;
   }
 
-  function placeShip(startCords, endCords, shipInstance = Ship(4)) {
+  function placeShip(startCords, endCords) {
     if (!validateShipPlacement(startCords, endCords)) return null;
 
     let [x1, y1] = startCords;
@@ -29,7 +34,11 @@ function createGameboard(size = 10) {
 
     let length = +coordinateDelta.filter(Boolean);
     length += Math.sign(length); //Increases delta by 1
-    let xOrientedShip = coordinateDelta[0] ? true : false;
+
+    const shipInstance = Ship(Math.abs(length));
+    ships.push(shipInstance);
+
+    const xOrientedShip = coordinateDelta[0] ? true : false;
     for (let i = length; i !== 0; i -= Math.sign(i)) {
       gameboard[x1][y1].isShip = true;
       gameboard[x1][y1].shipInstance = shipInstance;
@@ -75,11 +84,43 @@ function createGameboard(size = 10) {
     return true;
   }
 
-  function recieveAttack() {}
+  function recieveAttack(cords) {
+    if (!validateAttack(cords)) return null;
+    const [x, y] = cords;
+    const cell = gameboard[x][y];
 
-  function allShipsSunken() {}
+    cell.isHit = true;
+    if (cell.isShip) {
+      cell.shipInstance.hit();
+    }
 
-  return { placeShip, recieveAttack, allShipsSunken };
+    return cell;
+  }
+  function validateAttack(cords) {
+    const [x, y] = cords;
+
+    //Out of bounds attack
+    let invalidCords = [x, y].filter((coordinate) => {
+      return coordinate > size - 1 || coordinate < 0;
+    });
+    if (invalidCords.length) return null;
+
+    const cell = gameboard[x][y];
+    //Cell already been attacked
+    if (cell.isHit) return null;
+
+    return true;
+  }
+
+  function allShipsSunken() {
+    const sunkenShips = ships.filter((ship) => {
+      if (ship.isSunk()) return ship;
+    });
+
+    return sunkenShips.length === ships.length;
+  }
+
+  return { state, placeShip, recieveAttack, allShipsSunken };
 }
 
 export default createGameboard;
