@@ -111,6 +111,8 @@ body {
   height: 550px;
   width: 550px;
   border: 1px solid var();
+  
+  justify-self: center;
 
   display: grid;
   grid-template-rows: repeat(10, 1fr);
@@ -120,8 +122,13 @@ body {
   grid-template-columns: repeat(10, 1fr);
 }
 .gameboard div#row > div {
-  border: 1px solid #181818;
+  border: 1px solid #181818ab;
+}
+.gameboard div#row > .undiscovered {
   background-color: var(--board-cell-colour);
+}
+.gameboard div#row > .water {
+  background-color: var(--water-colour);
 }
 .gameboard div#row > .hit {
   background-color: var(--ship-hit-colour);
@@ -129,6 +136,20 @@ body {
 .gameboard div#row > .ship {
   background-color: var(--ship-colour);
 }
+
+
 .gameboard div#row > .miss {
-  border: 8px solid white;
+  position: relative;
+}
+.gameboard div#row > .miss::before {
+  display: block;
+  content: ''; 
+  position: absolute; 
+  top: 50%; 
+  left: 50%;
+  width: 12px;
+  height: 12px; 
+  background-color: var(--board-cell-colour); 
+  border-radius: 50%; 
+  transform: translate(-50%, -50%);
 }
