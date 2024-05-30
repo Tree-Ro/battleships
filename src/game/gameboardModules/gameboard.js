@@ -27,7 +27,7 @@ function createGameboard(size = 10) {
 
   function addNewSetOfShips() {
     for (const shiplength of [5, 4, 3, 3, 2]) {
-      const i = shiplength;
+      const i = shiplength - 1;
 
       if (Math.random() > 0.5) {
         //X-oriented Ship
