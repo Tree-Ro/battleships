@@ -131,31 +131,26 @@ body {
   transform: scale(1.05);
   border: 3px solid var(--board-cell-colour);
 }
-.gameboard div#row > .undiscovered {
+.gameboard div#row .undiscovered {
   background-color: var(--board-cell-colour);
 }
-.gameboard div#row > .undiscovered:hover {
+.gameboard div#row .undiscovered:hover {
   background-color: white;
 }
-.gameboard div#row > .water {
+.gameboard div#row .water {
   background-color: var(--water-colour);
 }
-.gameboard div#row > .hit {
+.gameboard div#row > #hit {
   background-color: var(--ship-hit-colour);
 }
-.gameboard div#row > .ship {
+.gameboard div#row .ship {
   background-color: var(--ship-colour);
 }
 
-#win-modal {
-  
-  
-}
-
-.gameboard div#row > .miss {
+.gameboard div#row .miss {
   position: relative;
 }
-.gameboard div#row > .miss::before {
+.gameboard div#row .miss::before {
   display: block;
   content: ''; 
   position: absolute; 

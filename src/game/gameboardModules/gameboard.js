@@ -3,6 +3,7 @@ import Ship from '../shipModules/ship.js';
 function createGameboard(size = 10) {
   let gameboard = generateBoard(size);
   let ships = [];
+  let attackQueue = [];
 
   function state() {
     return gameboard;
@@ -11,9 +12,9 @@ function createGameboard(size = 10) {
   function generateBoard(size) {
     let board = [];
 
-    for (let x = 0; x < size; x++) {
+    for (let x = 0; x < size; ++x) {
       board[x] = [];
-      for (let y = 0; y < size; y++) {
+      for (let y = 0; y < size; ++y) {
         let cellData = {
           isHit: false,
           isShip: false,
@@ -155,6 +156,46 @@ function createGameboard(size = 10) {
     return true;
   }
 
+  function getShotByNPC() {
+    attackQueue = [...new Set(attackQueue)];
+
+    if (attackQueue.length <= 0) {
+      while (true) {
+        let randomCords = [];
+
+        randomCords.push(Math.round(Math.random() * 10 - 1));
+        randomCords.push(Math.round(Math.random() * 10 - 1));
+        if (validateAttack(randomCords)) {
+          attackQueue.push(randomCords);
+          break;
+        }
+      }
+    }
+
+    const coordinates = attackQueue.shift();
+    const result = recieveAttack(coordinates);
+
+    if (result.isShip) {
+      for (const adjacent of [
+        [1, 0],
+        [0, 1],
+        [-1, 0],
+        [0, -1],
+      ]) {
+        const [x, y] = coordinates;
+        const [a, b] = adjacent;
+        const [newX, newY] = [x + a, y + b];
+
+        if (validateAttack([newX, newY])) {
+          attackQueue.push([newX, newY]);
+          console.log(attackQueue);
+        }
+      }
+    }
+
+    return coordinates;
+  }
+
   function allShipsSunken() {
     const sunkenShips = ships.filter((ship) => {
       if (ship.isSunk()) return ship;
@@ -163,7 +204,13 @@ function createGameboard(size = 10) {
     return sunkenShips.length === ships.length;
   }
 
-  return { state, recieveAttack, allShipsSunken, addNewSetOfShips };
+  return {
+    state,
+    recieveAttack,
+    allShipsSunken,
+    addNewSetOfShips,
+    getShotByNPC,
+  };
 }
 
 export default createGameboard;
