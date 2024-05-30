@@ -1,5 +1,5 @@
 import './style.css';
-import { renderGameboard } from './dom.js';
+import { displayWinModal, renderGameboard } from './dom.js';
 
 (() => {
   const startGameButton = document.querySelector('#introduction button');

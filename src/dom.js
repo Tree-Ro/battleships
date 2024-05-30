@@ -69,8 +69,13 @@ function createNPCBoard() {
       divCell.addEventListener('click', (event) => {
         npc.gameboard.recieveAttack([x, y]);
         renderCellDiscovery(event.target, x, y);
-      });
 
+        if (npc.gameboard.allShipsSunken()) {
+          const result = confirm(`${'You won.'}
+            Do you want to play another game?`);
+          result === true ? renderGameboard() : location.reload();
+        }
+      });
       rowWrapper.append(divCell);
     }
   }

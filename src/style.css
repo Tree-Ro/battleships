@@ -147,6 +147,10 @@ body {
   background-color: var(--ship-colour);
 }
 
+#win-modal {
+  
+  
+}
 
 .gameboard div#row > .miss {
   position: relative;
