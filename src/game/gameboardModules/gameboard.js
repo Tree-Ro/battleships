@@ -172,9 +172,13 @@ function createGameboard(size = 10) {
       }
     }
 
-    const coordinates = attackQueue.shift();
-    const result = recieveAttack(coordinates);
+    let coordinates = attackQueue.shift();
+    while (!validateAttack(coordinates)) {
+      //Fail safe
+      coordinates = attackQueue.shift();
+    }
 
+    const result = recieveAttack(coordinates);
     if (result.isShip) {
       for (const adjacent of [
         [1, 0],
