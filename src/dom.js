@@ -1,10 +1,12 @@
 import Player from './game/playerModules/player.js';
 
-const player = new Player();
-const npc = new Player();
+let player;
+let npc;
 let isPlayerTurn = true;
 
 function renderGameboard() {
+  player = new Player();
+  npc = new Player();
   const playerBoard = createPlayerBoard(player);
   const npcBoard = createNPCBoard(npc);
   const container = document.querySelector('#board-container');
@@ -67,32 +69,35 @@ function createNPCBoard() {
 
       divCell.addEventListener('click', (event) => {
         if (isPlayerTurn) {
-          npc.gameboard.recieveAttack([x, y]);
+          const result = npc.gameboard.recieveAttack([x, y]);
           renderCellDiscovery(event.target, x, y);
 
-          isPlayerTurn = false;
+          if (result) {
+            isPlayerTurn = false;
+            setTimeout(() => {
+              const [x1, y1] = player.gameboard.getShotByNPC();
+              const divCell =
+                document.querySelector(`#player`).children[x1].children[y1];
+              console.log(divCell);
+              renderCellDiscovery(divCell, x1, y1);
+              isPlayerTurn = true;
+            }, 500);
+          }
         }
-
-        setTimeout(() => {
-          const [x1, y1] = player.gameboard.getShotByNPC();
-          const divCell =
-            document.querySelector(`#player`).children[x1].children[y1];
-          console.log(divCell);
-          renderCellDiscovery(divCell, x1, y1);
-          isPlayerTurn = true;
-        }, 0);
 
         if (
           npc.gameboard.allShipsSunken() ||
           player.gameboard.allShipsSunken()
         ) {
-          const result = confirm(`${
-            player.gameboard.allShipsSunken()
-              ? 'Your ships got sunk first :('
-              : 'You sank all enemy ships!'
-          }
-            Do you want to play another game?`);
-          result === true ? renderGameboard() : location.reload();
+          const result = setTimeout(() => {
+            confirm(`${
+              player.gameboard.allShipsSunken()
+                ? 'Your ships got sunk first :('
+                : 'You sank all enemy ships!'
+            }
+              Do you want to play another game?`);
+            result === true ? renderGameboard() : location.reload();
+          }, 400);
         }
       });
 

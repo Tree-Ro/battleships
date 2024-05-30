@@ -57,6 +57,8 @@ body {
   justify-self: center;
   align-self: flex-start;
 
+  grid-column: 1/-1;
+
   padding: 25px;
 
   background-color: var(--board-cell-colour);
