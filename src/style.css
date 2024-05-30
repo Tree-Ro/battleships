@@ -45,7 +45,9 @@ body {
   width: 100%;
 
   display: grid;
-  grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fill, minmax(49%, 1fr));
+
+  grid-gap: 25px;
 }
 
 #board-container #introduction {
@@ -116,6 +118,8 @@ body {
 
   display: grid;
   grid-template-rows: repeat(10, 1fr);
+
+  box-shadow: rgba(0, 0, 0, 0.76) 5px 5px 20px;
 }
 .gameboard div#row {
   display: grid;
